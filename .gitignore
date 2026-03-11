@@ -1,0 +1,22 @@
+# --- macOS 垃圾文件 ---
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- Xcode 缓存与个人设置 ---
+build/
+DerivedData/
+*.xcuserdata
+*.xccheckout
+*.xcscheme
+*.xcuserstate
+*.xcresult
+
+# --- 依赖管理 ---
+Pods/
+.bundle/
+vendor/
+
+# --- 其他 ---
+*.log
+.pdm-python
