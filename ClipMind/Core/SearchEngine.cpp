@@ -7,22 +7,22 @@
 
 #include "SearchEngine.hpp"
 
-#include <algorithm>
-#include <cctype>
-
-namespace {
-std::string toLowerCopy(const std::string& value) {
-    std::string lowered = value;
-    std::transform(lowered.begin(), lowered.end(), lowered.begin(), [](unsigned char ch) {
-        return static_cast<char>(std::tolower(ch));
-    });
-    return lowered;
-}
-}
+#include <ctime>
 
 SearchEngine::SearchEngine() {
-    items_.push_back({"welcome-1", "System", "Welcome to ClipMind"});
-    items_.push_back({"welcome-2", "Hint", "Copy any text on your Mac and it will appear here."});
+    database_.initialize();
+
+    if (database_.fetchAllClips().empty()) {
+        database_.upsertClip("welcome-1",
+                             "System",
+                             "Welcome to ClipMind",
+                             std::time(nullptr));
+
+        database_.upsertClip("welcome-2",
+                             "Hint",
+                             "Copy any text on your Mac and it will appear here.",
+                             std::time(nullptr) + 1);
+    }
 }
 
 void SearchEngine::addOrUpdateItem(const std::string& id,
@@ -32,44 +32,45 @@ void SearchEngine::addOrUpdateItem(const std::string& id,
         return;
     }
 
-    auto existing = std::find_if(items_.begin(), items_.end(), [&](const SearchItem& item) {
-        return item.id == id;
-    });
+    database_.upsertClip(id, source, text, std::time(nullptr));
+}
 
-    if (existing != items_.end()) {
-        existing->source = source;
-        existing->text = text;
+std::vector<DisplayItem> SearchEngine::search(const std::string& query) const {
+    std::vector<DisplayItem> results;
+    std::vector<ClipRecord> records;
+
+    if (query.empty()) {
+        records = database_.fetchAllClips();
+    } else {
+        records = database_.searchClips(query);
+    }
+
+    for (const auto& item : records) {
+        results.push_back({item.id, "[" + item.source + "] " + item.text});
+    }
+
+    return results;
+}
+
+std::vector<DisplayItem> SearchEngine::allItems() const {
+    std::vector<DisplayItem> results;
+    std::vector<ClipRecord> records = database_.fetchAllClips();
+
+    for (const auto& item : records) {
+        results.push_back({item.id, "[" + item.source + "] " + item.text});
+    }
+
+    return results;
+}
+
+void SearchEngine::deleteItem(const std::string& id) {
+    if (id.empty()) {
         return;
     }
-
-    items_.insert(items_.begin(), {id, source, text});
+    
+    database_.deleteClip(id);
 }
 
-std::vector<std::string> SearchEngine::search(const std::string& query) const {
-    if (query.empty()) {
-        return allItems();
-    }
-
-    const std::string loweredQuery = toLowerCopy(query);
-    std::vector<std::string> results;
-
-    for (const auto& item : items_) {
-        const std::string haystack = toLowerCopy(item.source + " " + item.text);
-        if (haystack.find(loweredQuery) != std::string::npos) {
-            results.push_back("[" + item.source + "] " + item.text);
-        }
-    }
-
-    return results;
-}
-
-std::vector<std::string> SearchEngine::allItems() const {
-    std::vector<std::string> results;
-    results.reserve(items_.size());
-
-    for (const auto& item : items_) {
-        results.push_back("[" + item.source + "] " + item.text);
-    }
-
-    return results;
+void SearchEngine::deleteAllItems() {
+    database_.deleteAllClips();
 }

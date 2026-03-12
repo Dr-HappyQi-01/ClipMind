@@ -30,24 +30,36 @@
     _engine = nullptr;
 }
 
-- (NSArray<NSString *> *)searchWithQuery:(NSString *)query {
+- (NSArray<NSDictionary *> *)searchWithQuery:(NSString *)query {
     std::string cppQuery = [query UTF8String];
-    std::vector<std::string> cppResults = _engine->search(cppQuery);
+    std::vector<DisplayItem> cppResults = _engine->search(cppQuery);
 
-    NSMutableArray<NSString *> *results = [NSMutableArray array];
+    NSMutableArray<NSDictionary *> *results = [NSMutableArray array];
     for (const auto& item : cppResults) {
-        [results addObject:[NSString stringWithUTF8String:item.c_str()]];
+        NSString *identifier = [NSString stringWithUTF8String:item.id.c_str()];
+        NSString *text = [NSString stringWithUTF8String:item.displayText.c_str()];
+
+        [results addObject:@{
+            @"id": identifier,
+            @"text": text
+        }];
     }
 
     return results;
 }
 
-- (NSArray<NSString *> *)allItems {
-    std::vector<std::string> cppResults = _engine->allItems();
+- (NSArray<NSDictionary *> *)allItems {
+    std::vector<DisplayItem> cppResults = _engine->allItems();
 
-    NSMutableArray<NSString *> *results = [NSMutableArray array];
+    NSMutableArray<NSDictionary *> *results = [NSMutableArray array];
     for (const auto& item : cppResults) {
-        [results addObject:[NSString stringWithUTF8String:item.c_str()]];
+        NSString *identifier = [NSString stringWithUTF8String:item.id.c_str()];
+        NSString *text = [NSString stringWithUTF8String:item.displayText.c_str()];
+
+        [results addObject:@{
+            @"id": identifier,
+            @"text": text
+        }];
     }
 
     return results;
@@ -58,6 +70,15 @@
     std::string cppSource = [source UTF8String];
     std::string cppText = [text UTF8String];
     _engine->addOrUpdateItem(cppId, cppSource, cppText);
+}
+
+- (void)deleteItemWithId:(NSString *)identifier {
+    std::string cppId = [identifier UTF8String];
+    _engine->deleteItem(cppId);
+}
+
+- (void)deleteAllItems {
+    _engine->deleteAllItems();
 }
 
 @end

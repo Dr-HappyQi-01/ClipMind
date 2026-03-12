@@ -10,10 +10,11 @@
 #include <string>
 #include <vector>
 
-struct SearchItem {
+#include "DatabaseManager.hpp"
+
+struct DisplayItem {
     std::string id;
-    std::string source;
-    std::string text;
+    std::string displayText;
 };
 
 class SearchEngine {
@@ -24,9 +25,11 @@ public:
                          const std::string& source,
                          const std::string& text);
 
-    std::vector<std::string> search(const std::string& query) const;
-    std::vector<std::string> allItems() const;
+    std::vector<DisplayItem> search(const std::string& query) const;
+    std::vector<DisplayItem> allItems() const;
+    void deleteItem(const std::string& id);
+    void deleteAllItems();
 
 private:
-    std::vector<SearchItem> items_;
+    DatabaseManager database_;
 };

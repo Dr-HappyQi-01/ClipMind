@@ -10,6 +10,8 @@
 		1F8365CC2F61832600738D5A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F8365CB2F61832600738D5A /* ContentView.swift */; };
 		1F8365DF2F618DE500738D5A /* SearchEngineBridge.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1F8365DD2F6188C000738D5A /* SearchEngineBridge.mm */; };
 		1F8365E02F618E8000738D5A /* SearchEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F8365DB2F61871800738D5A /* SearchEngine.cpp */; };
+		1FCF097A2F62AC8A005C78EF /* DatabaseManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FCF09792F62AC8A005C78EF /* DatabaseManager.cpp */; };
+		1FCF097D2F62B786005C78EF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FCF097C2F62B786005C78EF /* libsqlite3.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +22,9 @@
 		1F8365DC2F61885000738D5A /* SearchEngineBridge.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SearchEngineBridge.h; sourceTree = "<group>"; };
 		1F8365DD2F6188C000738D5A /* SearchEngineBridge.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SearchEngineBridge.mm; sourceTree = "<group>"; };
 		1F8365DE2F618ABE00738D5A /* ClipMind-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ClipMind-Bridging-Header.h"; sourceTree = "<group>"; };
+		1FCF09782F62AC65005C78EF /* DatabaseManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DatabaseManager.hpp; sourceTree = "<group>"; };
+		1FCF09792F62AC8A005C78EF /* DatabaseManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DatabaseManager.cpp; sourceTree = "<group>"; };
+		1FCF097C2F62B786005C78EF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -35,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FCF097D2F62B786005C78EF /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -51,6 +57,7 @@
 				1F8365D52F61834700738D5A /* Core */,
 				1F8365D42F61833B00738D5A /* Views */,
 				1F8365C82F61832600738D5A /* ClipMind */,
+				1FCF097B2F62B786005C78EF /* Frameworks */,
 				1F8365C72F61832600738D5A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -85,6 +92,8 @@
 		1F8365D62F61834F00738D5A /* Database */ = {
 			isa = PBXGroup;
 			children = (
+				1FCF09782F62AC65005C78EF /* DatabaseManager.hpp */,
+				1FCF09792F62AC8A005C78EF /* DatabaseManager.cpp */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -101,6 +110,14 @@
 			children = (
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		1FCF097B2F62B786005C78EF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1FCF097C2F62B786005C78EF /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,6 +194,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FCF097A2F62AC8A005C78EF /* DatabaseManager.cpp in Sources */,
 				1F8365E02F618E8000738D5A /* SearchEngine.cpp in Sources */,
 				1F8365CC2F61832600738D5A /* ContentView.swift in Sources */,
 				1F8365DF2F618DE500738D5A /* SearchEngineBridge.mm in Sources */,

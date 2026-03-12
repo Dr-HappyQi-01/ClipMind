@@ -2,9 +2,14 @@ import SwiftUI
 import AppKit
 import Combine
 
+struct ClipDisplayItem: Identifiable, Hashable {
+    let id: String
+    let text: String
+}
+
 struct ContentView: View {
     @State private var query: String = ""
-    @State private var results: [String] = []
+    @State private var results: [ClipDisplayItem] = []
     @State private var clipboardPreview: String = "No clipboard text captured yet"
     @State private var lastChangeCount: Int = NSPasteboard.general.changeCount
 
@@ -32,7 +37,13 @@ struct ContentView: View {
                 }
 
                 Button("Show All") {
-                    results = bridge.allItems()
+                    let raw = bridge.allItems()
+                    results = mapBridgeResults(raw)
+                }
+                Button("Clear All") {
+                    bridge.deleteAllItems()
+                    results = []
+                    clipboardPreview = "No clipboard text captured yet"
                 }
             }
 
@@ -42,9 +53,12 @@ struct ContentView: View {
                     .textSelection(.enabled)
             }
 
-            List(results, id: \.self) { item in
-                Text(item)
-                    .textSelection(.enabled)
+            List {
+                ForEach(results) { item in
+                    Text(item.text)
+                        .textSelection(.enabled)
+                }
+                .onDelete(perform: deleteItems)
             }
 
             Spacer()
@@ -52,7 +66,8 @@ struct ContentView: View {
         .padding()
         .frame(width: 720, height: 520)
         .onAppear {
-            results = bridge.allItems()
+            let raw = bridge.allItems()
+            results = mapBridgeResults(raw)
             captureClipboardIfNeeded(force: true)
         }
         .onReceive(pollTimer) { _ in
@@ -61,7 +76,34 @@ struct ContentView: View {
     }
 
     private func runSearch() {
-        results = bridge.search(withQuery: query)
+        let raw = bridge.search(withQuery: query)
+        results = mapBridgeResults(raw)
+    }
+    
+    private func deleteItems(at offsets: IndexSet) {
+        for index in offsets {
+            let item = results[index]
+            bridge.deleteItem(withId: item.id)
+        }
+
+        if query.isEmpty {
+            results = mapBridgeResults(bridge.allItems())
+        } else {
+            runSearch()
+        }
+    }
+    
+    private func mapBridgeResults(_ rawItems: [[AnyHashable: Any]]) -> [ClipDisplayItem] {
+        rawItems.compactMap { item in
+            guard
+                let id = item["id"] as? String,
+                let text = item["text"] as? String
+            else {
+                return nil
+            }
+
+            return ClipDisplayItem(id: id, text: text)
+        }
     }
 
     private func captureClipboardIfNeeded(force: Bool) {
@@ -86,7 +128,8 @@ struct ContentView: View {
         bridge.addItem(withId: identifier, source: "Clipboard", text: trimmed)
 
         if query.isEmpty {
-            results = bridge.allItems()
+            let raw = bridge.allItems()
+            results = mapBridgeResults(raw)
         } else {
             runSearch()
         }
