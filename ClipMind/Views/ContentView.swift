@@ -55,8 +55,21 @@ struct ContentView: View {
 
             List {
                 ForEach(results) { item in
-                    Text(item.text)
-                        .textSelection(.enabled)
+                    HStack {
+                        Text(item.text)
+                            .textSelection(.enabled)
+
+                        Spacer()
+
+                        Button("Delete") {
+                            bridge.deleteItem(withId: item.id)
+                            if query.isEmpty {
+                                results = mapBridgeResults(bridge.allItems())
+                            } else {
+                                runSearch()
+                            }
+                        }
+                    }
                 }
                 .onDelete(perform: deleteItems)
             }
@@ -139,3 +152,4 @@ struct ContentView: View {
 #Preview {
     ContentView()
 }
+

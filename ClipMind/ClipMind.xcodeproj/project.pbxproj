@@ -12,6 +12,7 @@
 		1F8365E02F618E8000738D5A /* SearchEngine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F8365DB2F61871800738D5A /* SearchEngine.cpp */; };
 		1FCF097A2F62AC8A005C78EF /* DatabaseManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FCF09792F62AC8A005C78EF /* DatabaseManager.cpp */; };
 		1FCF097D2F62B786005C78EF /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FCF097C2F62B786005C78EF /* libsqlite3.tbd */; };
+		1FEE96832F63EF8B0019F47A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FEE96822F63EF8B0019F47A /* AppDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		1FCF09782F62AC65005C78EF /* DatabaseManager.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = DatabaseManager.hpp; sourceTree = "<group>"; };
 		1FCF09792F62AC8A005C78EF /* DatabaseManager.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DatabaseManager.cpp; sourceTree = "<group>"; };
 		1FCF097C2F62B786005C78EF /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		1FEE96822F63EF8B0019F47A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -74,6 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				1F8365CB2F61832600738D5A /* ContentView.swift */,
+				1FEE96822F63EF8B0019F47A /* AppDelegate.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -194,6 +197,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FEE96832F63EF8B0019F47A /* AppDelegate.swift in Sources */,
 				1FCF097A2F62AC8A005C78EF /* DatabaseManager.cpp in Sources */,
 				1F8365E02F618E8000738D5A /* SearchEngine.cpp in Sources */,
 				1F8365CC2F61832600738D5A /* ContentView.swift in Sources */,
